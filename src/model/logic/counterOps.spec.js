@@ -1,10 +1,15 @@
 import { property, nat } from 'jsverify'
 
-import { when } from '../../util/testUtil.spec'
+import { when, positiveInt } from '../../util/testUtil.spec'
 import { increment, decrement, add, subtract } from './counterOps'
 
 describe('increment', () => {
     property('adds one to any natural number', nat, n => increment(n) === n+1)
+    property(
+      'is inverse of decrement for positive integers',
+      positiveInt,
+      n => increment(decrement(n)) === n
+    )
 })
 
 describe('decrement', () => {
@@ -17,6 +22,11 @@ describe('decrement', () => {
       'returns zero for numbers <= 1',
       nat(1),
       n => decrement(n) === 0
+    )
+    property(
+      'is inverse of increment',
+      nat,
+      n => decrement(increment(n)) === n
     )
 })
 
