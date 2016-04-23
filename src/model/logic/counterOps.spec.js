@@ -1,17 +1,42 @@
-import { expect } from 'chai'
-import { increment, decrement } from './counterOps'
+import { property, nat } from 'jsverify'
 
-describe('Increment', () => {
-  it('adds one to any number', () => {
-    expect(increment(0)).to.equal(1)
-    expect(increment(1)).to.equal(2)
-    expect(increment(2)).to.equal(3)
-  })
+import { when } from '../../util/testUtil.spec'
+import { increment, decrement, add, subtract } from './counterOps'
+
+describe('increment', () => {
+    property('adds one to any natural number', nat, n => increment(n) === n+1)
 })
 
-describe('Decrement', () => {
-  it('subtracts one from any number larger than zero, otherwise leaves it as is', () => {
-    expect(decrement(5)).to.equal(4)
-    expect(decrement(0)).to.equal(0)
-  })
+describe('decrement', () => {
+    property(
+      'subtracts one from any positive number',
+      nat,
+      n => decrement(n+1) === n
+    )
+    property(
+      'returns zero for numbers <= 1',
+      nat(1),
+      n => decrement(n) === 0
+    )
+})
+
+describe('add', () => {
+  property(
+    'adds two numbers together',
+    nat, nat,
+    (n, m) => add(n, m) === n + m
+  )
+})
+
+describe('subtract', () => {
+  property(
+    'returns the first number minus the second if the first number is larger',
+    nat, nat,
+    (n, m) => when(n >= m, subtract(n, m) === n - m)
+  )
+  property(
+    'returns zero if the second number is larger',
+    nat, nat,
+    (n, m) => when(n <= m, subtract(n, m) === 0)
+  )
 })
