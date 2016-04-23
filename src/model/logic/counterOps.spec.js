@@ -4,7 +4,10 @@ import { when, positiveInt } from '../../util/testUtil.spec'
 import { increment, decrement, add, subtract } from './counterOps'
 
 describe('increment', () => {
-    property('adds one to any natural number', nat, n => increment(n) === n+1)
+    property('adds one to any natural number',
+      nat,
+      n => increment(n) === n+1
+    )
     property(
       'is inverse of decrement for positive integers',
       positiveInt,
