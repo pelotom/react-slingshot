@@ -1,15 +1,15 @@
-import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import React from 'react'
+import { Route, IndexRoute } from 'react-router'
 
-import App from './components/App';
-import FuelSavingsPage from './containers/FuelSavingsPage';
-import AboutPage from './components/AboutPage.js';
-import NotFoundPage from './components/NotFoundPage.js';
+import App from './view/App'
+import CounterPage from './view/CounterPage'
+import AboutPage from './view/AboutPage'
+import NotFoundPage from './view/NotFoundPage'
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={FuelSavingsPage} />
+    <IndexRoute component={CounterPage} />
     <Route path="about" component={AboutPage}/>
     <Route path="*" component={NotFoundPage} />
   </Route>
-);
+)
